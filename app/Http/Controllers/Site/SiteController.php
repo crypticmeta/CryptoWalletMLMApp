@@ -28,7 +28,7 @@ class SiteController extends Controller
     }
 
     public function Report(){
-        return view('Site.Report');
+        return view('Site.report');
     }
 
     public function siteReport(Request $request){

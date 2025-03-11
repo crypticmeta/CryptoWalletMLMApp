@@ -1,0 +1,94 @@
+version: "3.8"
+
+services:
+    # Laravel Application
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: crypto_wallet_app
+        restart: unless-stopped
+        volumes:
+            - ./storage:/var/www/html/storage
+            # Add volume mappings for image directories if developing locally
+            - ./public:/var/www/html/public
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_started
+        networks:
+            - crypto_network
+        ports:
+            - "80:80"
+            - "443:443" # Added HTTPS port mapping
+
+    # MySQL Database
+    db:
+        image: mysql:8.0
+        container_name: crypto_wallet_db
+        restart: unless-stopped
+        environment:
+            - MYSQL_DATABASE=cryptowallet
+            - MYSQL_USER=cryptouser
+            - MYSQL_PASSWORD=crypto_secret_password
+            - MYSQL_ROOT_PASSWORD=root_password
+        volumes:
+            - mysql_data:/var/lib/mysql
+        networks:
+            - crypto_network
+        ports:
+            - "3306:3306"
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "mysqladmin",
+                    "ping",
+                    "-h",
+                    "localhost",
+                    "-u",
+                    "cryptouser",
+                    "-pcrypto_secret_password",
+                ]
+            interval: 5s
+            timeout: 5s
+            retries: 20
+
+    # Redis for Cache and Queue
+    redis:
+        image: redis:alpine
+        container_name: crypto_wallet_redis
+        restart: unless-stopped
+        networks:
+            - crypto_network
+        ports:
+            - "6379:6379"
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    # phpMyAdmin for Database Management (optional)
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: crypto_wallet_phpmyadmin
+        restart: unless-stopped
+        environment:
+            - PMA_HOST=db
+            - PMA_PORT=3306
+        depends_on:
+            - db
+        networks:
+            - crypto_network
+        ports:
+            - "8080:80"
+
+networks:
+    crypto_network:
+        driver: bridge
+
+volumes:
+    mysql_data:
+        driver: local

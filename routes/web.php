@@ -111,3 +111,8 @@ Route::group(['namespace'=>'member','middleware'=>'memberprotectedpages'],functi
         Route::POST(config('app.member_folder')."/withdrawPay",[DashboardController::class,'withdraw'])->name('member.withdraw.auto');
         
 });
+
+// Add a test route
+Route::get('/hello', function () {
+    return 'Hello World';
+});
