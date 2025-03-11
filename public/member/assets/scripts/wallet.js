@@ -227,102 +227,118 @@ function re() {
     console.log("Manual reconnect triggered");
     rconnect();
 }
+// Reusing the same TrustWallet provider detection functions we created earlier
+// This is the improved lconnect function that works similarly to rconnect but for login functionality
+
 async function lconnect() {
-    const _0x1f4f26 = _0x5721,
-        _0x393bff = {
-            fkzDL: _0x1f4f26(0x125),
-            DWJXN: function (_0x26e3bf, _0x1ce9cc) {
-                return _0x26e3bf !== _0x1ce9cc;
-            },
-            FSEYV: _0x1f4f26(0x8d),
-            oLgWR: _0x1f4f26(0x147) + _0x1f4f26(0x85) + _0x1f4f26(0xf7),
-            Hexxm: _0x1f4f26(0x12c),
-            Uaffg: function (_0x3cbbf0, _0xcf7d85) {
-                return _0x3cbbf0 === _0xcf7d85;
-            },
-            uJFgK: _0x1f4f26(0x14e),
-            zxEfl: _0x1f4f26(0x120),
-            ZTvKS: function (_0x16bbb2, _0x122fd3) {
-                return _0x16bbb2(_0x122fd3);
-            },
-            hNYqw: _0x1f4f26(0x170) + _0x1f4f26(0xc1) + _0x1f4f26(0x14c) + ".",
-            qQzsV: _0x1f4f26(0x162),
-            nRbSM: _0x1f4f26(0xa9),
-            EOZea: _0x1f4f26(0x13f) + _0x1f4f26(0xaf),
-            iCRwE: _0x1f4f26(0x9e) + _0x1f4f26(0xf8),
-            jWumA:
-                _0x1f4f26(0xa6) +
-                _0x1f4f26(0x81) +
-                _0x1f4f26(0x9d) +
-                _0x1f4f26(0xdc),
-            HrDlV: _0x1f4f26(0x111),
-            crTsb: _0x1f4f26(0x12a),
-        },
-        _0x3d0f28 = window[_0x1f4f26(0x16d)],
-        _0x1af35c = new Web3(window[_0x1f4f26(0x16d)]);
-    if (
-        _0x393bff[_0x1f4f26(0xfa)](
-            typeof window[_0x1f4f26(0x16d)],
-            _0x393bff[_0x1f4f26(0x166)]
-        ) &&
-        window[_0x1f4f26(0x16d)][_0x1f4f26(0xba)]
-    )
-        try {
-            await window[_0x1f4f26(0x16d)][_0x1f4f26(0x87)]();
-            try {
-                await _0x3d0f28[_0x1f4f26(0xec)]({
-                    method: _0x393bff[_0x1f4f26(0x14b)],
-                    params: [{ chainId: _0x393bff[_0x1f4f26(0x185)] }],
-                });
-            } catch (_0x387bf4) {
-                _0x393bff[_0x1f4f26(0x12d)](
-                    _0x387bf4[_0x1f4f26(0x8e)],
-                    -0x3 * 0x93f + -0x12ca + 0x3e28
-                ) &&
-                    (document[_0x1f4f26(0xff) + _0x1f4f26(0x17f)](
-                        _0x393bff[_0x1f4f26(0xc5)]
-                    )[_0x1f4f26(0x17b) + "te"](
-                        _0x393bff[_0x1f4f26(0xd0)],
-                        !![]
-                    ),
-                    _0x393bff[_0x1f4f26(0x179)](
-                        setError,
-                        _0x393bff[_0x1f4f26(0x8c)]
-                    ));
-            }
-            const _0x963267 = document[_0x1f4f26(0xff) + _0x1f4f26(0x17f)](
-                _0x393bff[_0x1f4f26(0x90)]
-            );
-            (_0x963267[_0x1f4f26(0x176)][_0x1f4f26(0xf3)] =
-                _0x393bff[_0x1f4f26(0x139)]),
-                (_0x963267[_0x1f4f26(0x134)] = _0x393bff[_0x1f4f26(0x158)]),
-                _0x3d0f28[_0x1f4f26(0xec)]({
-                    method: _0x393bff[_0x1f4f26(0x188)],
-                })[_0x1f4f26(0x106)]((_0x547e83) => {
-                    const _0x17f4d9 = _0x1f4f26;
-                    let _0x12146a = _0x547e83[0x1681 + 0x1804 * -0x1 + 0x183];
-                    const _0x3dde90 = document[
-                        _0x17f4d9(0xff) + _0x17f4d9(0x17f)
-                    ](_0x393bff[_0x17f4d9(0xac)]);
-                    _0x3dde90[_0x17f4d9(0x100)] = _0x12146a;
-                });
-        } catch (_0x2e3955) {
-            return (
-                console[_0x1f4f26(0x11a)](
-                    _0x393bff[_0x1f4f26(0xfb)],
-                    _0x2e3955
-                ),
-                null
-            );
+    try {
+        console.log("Starting wallet login process...");
+        document.getElementById("adata").innerHTML = "Connecting to wallet...";
+
+        // Get the TrustWallet provider with improved detection
+        const ethereum = await getTrustWalletInjectedProvider();
+
+        if (!ethereum) {
+            console.log("TrustWallet not detected after waiting");
+            var raltElement = document.getElementById("ralt");
+            raltElement.style.display = "block";
+            document.getElementById("adata").innerHTML =
+                "Not Connected to Wallet!";
+            return;
         }
-    else {
-        var _0x1e583d = document[_0x1f4f26(0xff) + _0x1f4f26(0x17f)](
-            _0x393bff[_0x1f4f26(0x146)]
-        );
-        _0x1e583d[_0x1f4f26(0x176)][_0x1f4f26(0xd9)] =
-            _0x393bff[_0x1f4f26(0x14d)];
+
+        console.log("TrustWallet detected, requesting accounts for login...");
+        const web3 = new Web3(ethereum);
+
+        // Request access to the wallet
+        try {
+            // This is legacy but kept for backward compatibility
+            if (ethereum.enable) {
+                await ethereum.enable();
+            }
+
+            // Try to switch to Binance Smart Chain
+            try {
+                await ethereum.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{ chainId: "0x38" }], // BSC Mainnet
+                });
+                console.log("Successfully switched to BSC");
+            } catch (switchError) {
+                console.error("Error switching chain:", switchError);
+                // If BSC network isn't added to the wallet
+                if (switchError.code === 4902) {
+                    document
+                        .getElementById("submit")
+                        .setAttribute("disabled", true);
+                    document.getElementById("adata").innerHTML =
+                        "Please add Binance Smart Chain network.";
+                    return;
+                }
+            }
+
+            // Update UI to show successful connection
+            const dataElement = document.getElementById("adata");
+            dataElement.style.color = "green";
+            dataElement.innerHTML = "Wallet Connected!";
+
+            // Get wallet address and update the form for login
+            const accounts = await ethereum.request({
+                method: "eth_requestAccounts",
+            });
+            console.log("Login accounts:", accounts);
+
+            if (accounts && accounts.length > 0) {
+                let userAddress = accounts[0];
+                const addressField = document.getElementById("ladr"); // Different field for login
+                addressField.value = userAddress;
+                console.log("Wallet login successful:", userAddress);
+            } else {
+                console.log("No accounts returned");
+                document.getElementById("adata").innerHTML =
+                    "No accounts returned from wallet.";
+            }
+
+            // Set up event listeners for account changes
+            ethereum.on("accountsChanged", (accounts) => {
+                console.log("Accounts changed during login:", accounts);
+                if (accounts.length === 0) {
+                    document.getElementById("adata").innerHTML =
+                        "Wallet disconnected.";
+                    document.getElementById("ladr").value = "";
+                } else {
+                    document.getElementById("ladr").value = accounts[0];
+                }
+            });
+
+            // Set up event listeners for chain changes
+            ethereum.on("chainChanged", (chainId) => {
+                console.log("Chain changed during login:", chainId);
+                if (chainId !== "0x38") {
+                    document.getElementById("adata").innerHTML =
+                        "Please switch to Binance Smart Chain.";
+                } else {
+                    document.getElementById("adata").innerHTML =
+                        "Wallet Connected!";
+                }
+            });
+        } catch (error) {
+            console.error("Error connecting wallet for login:", error);
+            document.getElementById("adata").innerHTML =
+                "Login error: " + (error.message || "Unknown error");
+            return null;
+        }
+    } catch (error) {
+        console.error("Unexpected error during login:", error);
+        document.getElementById("adata").innerHTML =
+            "Unexpected login error: " + (error.message || "Unknown error");
+        return null;
     }
 }
+
+// Note: This function depends on the getTrustWalletInjectedProvider function
+// that we defined in the previous artifact. Make sure that function is included
+// in your final code.
 function re() {
     const _0x4e59f5 = _0x5721;
     location[_0x4e59f5(0x132)]();
