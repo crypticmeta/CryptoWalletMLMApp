@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('client_profile_personals', function (Blueprint $table) {
             $table->id();
             $table->string('client_id')->unique();
-            $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('mobile')->nullable();
+            $table->string('email_key')->nullable();
+            $table->string('mobile_key')->nullable();
             $table->string('address')->nullable();
             $table->string('profile_image')->nullable();
             $table->boolean('is_status')->default(1);

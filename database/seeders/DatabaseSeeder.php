@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create 10 random users
-        \App\Models\User::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
 
         // Create an admin user
         \App\Models\User::factory()->create([
@@ -103,5 +103,43 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]);
         }
+
+        // Create the first client profile account for registration system
+        $jdate = date('Y-m-d');
+        $date = date('Y-m-d h:i:s');
+        $client_id = 'CTHUB100100';
+        $wallet_address = '0xFirstUserWalletAddress'; // Replace with a real wallet address
+
+        // Insert the first user in client_profile_accounts table
+        DB::table('client_profile_accounts')->insert([
+            'client_id' => $client_id,
+            'parent_id' => $client_id, // Self-referential for first user
+            'client_intro_id' => $client_id, // Self-referential for first user
+            'main_wallet' => 1000.00000000, // Give some initial balance
+            'boosting_wallet' => 500.00000000,
+            'wallet_address' => $wallet_address,
+            'join_date' => $jdate,
+            'activation_date' => $jdate,
+            'activation_time' => $date,
+            'activation_status' => 1, // Already activated
+            'current_package' => 1, // Set to the starter package
+            'is_status' => 1,
+            'is_live' => 1,
+            'blocked_status' => 0, // Not blocked
+            'created_at' => $date,
+            'updated_at' => $date,
+        ]);
+
+        // Create the corresponding member profile entry
+        $email_key = "first@gmail.com";
+        $mobile_key = mt_rand(100000, 999999);
+
+        DB::table('client_profile_personals')->insert([
+            'client_id' => $client_id,
+            'email_key' => $email_key,
+            'mobile_key' => $mobile_key,
+            'created_at' => $date,
+            'updated_at' => $date,
+        ]);
     }
 }

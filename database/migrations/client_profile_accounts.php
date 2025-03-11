@@ -28,6 +28,7 @@ return new class extends Migration
             $table->integer('current_package')->default(0);
             $table->boolean('is_status')->default(1);
             $table->boolean('is_live')->default(1);
+            $table->boolean('blocked_status')->default(0); // Added this field
             $table->timestamps();
         });
     }
